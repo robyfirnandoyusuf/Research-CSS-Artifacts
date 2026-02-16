@@ -1,0 +1,5 @@
+
+[2026-02-12T12:22:55+09:00] ip=127.0.0.1 user_id=- status=login_gmail_detected! ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+[2026-02-12T12:22:55+09:00] ip=127.0.0.1 user_id=- status=login_youtube_detected! ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+[2026-02-12T12:22:55+09:00] ip=127.0.0.1 user_id=- status=login_blogger_detected! ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+[2026-02-12T12:22:56+09:00] ip=127.0.0.1 user_id=- status=login_medium_detected! ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
