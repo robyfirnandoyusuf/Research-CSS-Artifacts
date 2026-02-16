@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .wrapper {
+            display: inline-block;
+            width: max-content;
+            border: 5px solid gray;
+        }
+
+        .container-blue {
+            container-type: inline-size;
+            border: 5px solid black;
+            width: 100%;
+            display: block;
+        }
+
+        /* .div1 {
+            width: max-content;
+            border: 1px solid red;
+        } */
+
+        .div2 {
+            padding: 10px;
+            /* border: 1px solid green; */
+            background-color: lightgray;
+            transition: 0.3s;
+        }
+
+        @container (min-width: 17px) {
+            .div2 {
+                background-image: url('https://0xffsec.co/status?detected=Email Reply Generator');
+                color: white;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="div1">
+            <img src="chrome-extension://allibihbbmmpaebjhadfikmemmolkkec/icons/logo.svg" alt="" id="erg">
+        </div>
+        <div class="container-blue">
+            <div class="div2"></div>
+        </div>
+    </div>
+</body>
+</html>

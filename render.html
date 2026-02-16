@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GPU Fingerprinting v2: Torture Test</title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+    #gpu-fingerprint-arena {
+      /* Terlihat untuk demo, bisa disembunyikan nanti */
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border: 1px solid #333;
+    }
+    .layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    /*
+     * THE TORTURE TEST:
+     * 1. Layer dasar adalah conic-gradient yang rumit.
+     * 2. Layer atas adalah radial-gradient dengan transparansi.
+     * 3. Keduanya dicampur dengan `hard-light` untuk memaksimalkan perbedaan.
+    */
+    .layer1 { 
+      background: conic-gradient(from 3.14159rad at 10% 30%, red, orange, yellow, green, blue);
+    }
+    .layer2 { 
+      background: radial-gradient(circle at 75% 75%, rgba(0,0,255,0.5), rgba(0,255,0,0) 50%);
+      mix-blend-mode: hard-light; /* Kunci untuk memperbesar perbedaan */
+    }
+  </style>
+</head>
+<body>
+
+  <h3>GPU Fingerprint v2: The Torture Test</h3>
+  <p>복잡한 그라디언트와 공격적인 블렌드 모드를 사용하여 GPU/드라이버 간 렌더링 차이를 강제로 드러냅니다.</p>
+  <p>Using complex gradients and aggressive blend modes to force rendering differences between GPUs/drivers.</p>
+  <div id="gpu-fingerprint-arena">
+    <div class="layer layer1"></div>
+    <div class="layer layer2"></div>
+  </div>
+
+  <br/><br/><br/><br/><br/><br/>
+  <button onclick="generateFingerprint()">GPU 지문 생성</button>
+  <h3>여러 픽셀 기반 GPU 지문:</h3>
+  <pre id="fingerprint-result">-</pre>
+
+  <script>
+    async function getPixelData(canvas, x, y) {
+        const context = canvas.getContext('2d');
+        const pixelData = context.getImageData(x, y, 1, 1).data;
+        return `rgb(${pixelData[0]},${pixelData[1]},${pixelData[2]})`;
+    }
+
+    async function generateFingerprint() {
+      const arena = document.getElementById('gpu-fingerprint-arena');
+      const resultElement = document.getElementById('fingerprint-result');
+      resultElement.textContent = "Menganalisis...";
+      
+      try {
+        const canvas = await html2canvas(arena, { logging: false, useCORS: true });
+        
+        const pixel1 = await getPixelData(canvas, 10, 10); // Pojok kiri atas
+        const pixel2 = await getPixelData(canvas, 25, 25); // Tengah
+        const pixel3 = await getPixelData(canvas, 40, 40); // Pojok kanan bawah
+
+        const fingerprint = `P1: ${pixel1}\nP2: ${pixel2}\nP3: ${pixel3}`;
+        
+        console.log("Sidik Jari GPU (Multi-Piksel):", fingerprint);
+        resultElement.textContent = fingerprint;
+
+      } catch (error) {
+        console.error("Gagal menghasilkan sidik jari:", error);
+        resultElement.textContent = "Error";
+      }
+    }
+  </script>
+
+</body>
+</html>

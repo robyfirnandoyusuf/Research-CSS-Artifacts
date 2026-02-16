@@ -1,0 +1,139 @@
+<script>
+  var detectors = [
+    {
+      src: "https://squareup.com/login?return_to=%2Ffavicon.ico",
+      name: "Square"
+  }, {
+      src: "https://twitter.com/login?redirect_after_login=https%3a%2f%2ftwitter.com%2ffavicon.ico",
+      name: "Twitter"
+  }, {
+      src: "https://www.facebook.com/login.php?next=https%3A%2F%2Fwww.facebook.com%2Ffavicon.ico%3F_rdr%3Dp",
+      name: "Facebook"
+  }, {
+      src: "https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.google.com%2Ffavicon.ico&uilel=3&hl=en&service=mail",
+      name: "Gmail"
+  }, {
+      src: "https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Ffavicon.ico&uilel=3&hl=en&service=youtube",
+      name: "Youtube"
+  }, {
+      src: "https://plus.google.com/up/accounts/upgrade/?continue=https://plus.google.com/favicon.ico",
+      name: "Google Plus"
+  }, {
+      src: "https://login.skype.com/login?message=signin_continue&redirect_uri=https%3A%2F%2Fsecure.skype.com%2Ffavicon.ico",
+      name: "Skype"
+  }, {
+      src: "https://www.spotify.com/en/login/?forward_url=https%3A%2F%2Fwww.spotify.com%2Ffavicon.ico",
+      name: "Spotify"
+  }, {
+      src: "https://www.reddit.com/login?dest=https%3A%2F%2Fwww.reddit.com%2Ffavicon.ico",
+      name: "Reddit"
+  }, {
+      src: "https://www.tumblr.com/login?redirect_to=%2Ffavicon.ico",
+      name: "Tumblr"
+  }, {
+      src: "https://www.expedia.de/user/login?ckoflag=0&selc=0&uurl=qscr%3Dreds%26rurl%3D%252Ffavicon.ico",
+      name: "Expedia"
+  }, {
+      src: "https://www.dropbox.com/login?cont=https%3A%2F%2Fwww.dropbox.com%2Fstatic%2Fimages%2Fabout%2Fdropbox_logo_glyph_2015.svg",
+      name: "Dropbox"
+  }, {
+      src: "https://www.amazon.com/ap/signin/178-4417027-1316064?_encoding=UTF8&openid.assoc_handle=usflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&openid.pape.max_auth_age=10000000&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Ffavicon.ico",
+      name: "Amazon.com"
+  }, {
+      src: "https://www.pinterest.com/login/?next=https%3A%2F%2Fwww.pinterest.com%2Ffavicon.ico",
+      name: "Pinterest"
+  }, {
+      src: "https://de.foursquare.com/login?continue=%2Ffavicon.ico",
+      name: "Foursquare"
+  }, {
+      src: "https://eu.battle.net/login/de/index?ref=https://eu.blizzard.com/static/_images/favicon.ico",
+      name: "Battle.net"
+  }, {
+      src: "https://store.steampowered.com/login/?redir=favicon.ico",
+      name: "Steam"
+  }, {
+      src: "https://www.academia.edu/login?cp=/favicon.ico&cs=www",
+      name: "Academia.edu"
+  }, {
+      src: "https://accounts.google.com/ServiceLogin?service=blogger&hl=de&passive=1209600&continue=https://www.blogger.com/favicon.ico",
+      name: "Blogger"
+  }, {
+      src: "https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ffavicon.ico%3Fid%3D1",
+      name: "Github"
+  }, {
+      src: "https://medium.com/m/signin?redirect=https%3A%2F%2Fmedium.com%2Ffavicon.ico&loginType=default",
+      name: "Medium"
+  }, {
+      src: "https://news.ycombinator.com/login?goto=y18.svg",
+      name: "Hackernews"
+  }, {
+      src: "https://carbonmade.com/signin?returnTo=favicon.ico",
+      name: "Carbonmade"
+  }, {
+      src: "https://courses.edx.org/login?next=/favicon.ico",
+      name: "EdX"
+  }, {
+      src: "https://slack.com/checkcookie?redir=https%3A%2F%2Fslack.com%2Ffavicon.ico%23",
+      name: "Slack"
+  }, {
+      src: "https://www.khanacademy.org/login?continue=https%3A//www.khanacademy.org/favicon.ico",
+      name: "Khan Academy"
+  }, {
+      src: "https://www.paypal.com/signin?returnUri=https://t.paypal.com/ts?v=1.0.0",
+      name: "Paypal"
+  }, {
+      src: "https://500px.com/login?r=%2Ffavicon.ico",
+      name: "500px"
+  }, {
+      src: "https://www.airbnb.com/login?redirect_params[action]=favicon.ico&redirect_params[controller]=home",
+      name: "Airbnb"
+  }, {
+      src: "https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Ffavicon.ico",
+      name: "Disqus"
+  }, {
+      src: "https://secure.meetup.com/login/?returnUri=https%3A%2F%2Fwww.meetup.com%2Fimg%2Fajax_loader_trans.gif",
+      name: "Meetup"
+  }, {
+      src: "https://bitbucket.org/account/signin/?next=/favicon.ico",
+      name: "BitBucket"
+  }, {
+      src: "https://secure.indeed.com/account/login?continue=%2ffavicon.ico",
+      name: "Indeed"
+  }, {
+      src: "https://vk.com/login?u=2&to=ZmF2aWNvbi5pY28-",
+      name: "VK"
+  }, {
+      src: "https://www.twitch.tv/login?redirect_on_login=/favicon.ico",
+      name: "Twitch"
+  }, {
+      src: "https://accounts.craigslist.org/login?rt=L&rp=%2ffavicon.ico&step=confirmation",
+      name: "Craigslist"
+  }, {
+      src: "https://www.imdb.com/ap/signin?_encoding=UTF8&openid.assoc_handle=imdb_us&openid.claimed_id=http%3a%2f%2fspecs.openid.net%2fauth%2f2.0%2fidentifier_select&openid.identity=http%3a%2f%2fspecs.openid.net%2fauth%2f2.0%2fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3a%2f%2fspecs.openid.net%2fauth%2f2.0&openid.pape.max_auth_age=10000000&openid.return_to=https%3a%2f%2fwww.imdb.com%2ffavicon.ico",
+      name: "IMDb"
+  }
+];
+
+const createNode = (socialNetwork, isAuth) => {
+  const element = document.createElement('div')
+  const text = (!isAuth ? 'not ': '') + 'logged into ' + socialNetwork
+  const color = isAuth ? 'green' : 'red'
+
+  element.innerText = text
+  element.style.color = color
+  document.body.appendChild(element)
+}
+
+detectors.forEach((detector) => {
+    const element = document.createElement('img')
+    element.onload = () => {
+    createNode(detector.name, true)
+}
+    element.onerror = () => {
+        createNode(detector.name, false)
+    }
+    element.src = detector.src;
+})
+
+// this function generate dom element: <img src="https://www.paypal.com/signin?returnUri=https://t.paypal.com/ts?v=1.0.0">
+</script>

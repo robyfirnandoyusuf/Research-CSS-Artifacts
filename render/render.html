@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pure CSS GPU Fingerprinting</title>
+    <style>
+        /* 1. Muat font SVG "mata-mata" kita */
+        @font-face {
+            font-family: 'LeakyFont';
+            src: url('leaky-font.svg#LeakyFont') format('svg');
+        }
+
+        /* 2. Definisikan Arena GPU (dari Langkah 1) */
+        #gpu-fingerprint-arena {
+            position: absolute;
+            /* Sembunyikan saat produksi */
+            /* top: -9999px; left: -9999px; */
+            width: 50px;
+            height: 50px;
+        }
+
+        .layer1 {
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 3.14159rad at 10% 30%, red, orange, yellow, green, blue);
+        }
+
+        .layer2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 75% 75%, rgba(0, 0, 255, 0.5), rgba(0, 255, 0, 0) 50%);
+            mix-blend-mode: hard-light;
+        }
+
+        /* 3. Buat "Sensor" di atas Arena */
+        #sensor {
+            position: absolute;
+            /* Posisikan di titik yang warnanya berbeda antara Chrome & Firefox */
+            top: 25px;
+            /* Koordinat Y dari Piksel 2 kita */
+            left: 25px;
+            /* Koordinat X dari Piksel 2 kita */
+
+            /* Ini penting: Warna teks sensor akan menjadi `putih - warna_latar` */
+            mix-blend-mode: difference;
+            color: white;
+        }
+
+        /* 4. Terapkan font "mata-mata" kita ke sensor */
+        #sensor::after {
+            content: 'A';
+            /* Karakter yang kita definisikan di SVG font */
+            font-family: 'LeakyFont';
+            /* Mengaktifkan mekanisme kebocoran! */
+
+            /* Sembunyikan teksnya agar tidak terlihat */
+            font-size: 1px;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Mencoba membocorkan 1-bit data GPU secara pasif...</h1>
+    <p>Periksa log server Anda untuk permintaan ke /leak.png</p>
+
+    <div id="gpu-fingerprint-arena">
+        <div class="layer layer1"></div>
+        <div class="layer layer2"></div>
+
+        <!-- Sensor yang akan mengaktifkan font "mata-mata" -->
+        <div id="sensor"></div>
+    </div>
+
+</body>
+
+</html>

